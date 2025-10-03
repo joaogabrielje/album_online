@@ -60,6 +60,9 @@ model Album {
   price        Decimal @default(299.99)
   isPaid       Boolean @default(false)
   
+  // Personalização do cliente
+  customization Json?  // Configurações de personalização (cores, música, banner, etc)
+  
   // Datas
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

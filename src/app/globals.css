@@ -101,4 +101,59 @@
       columns: 1;
     }
   }
+
+  /* Album Viewer Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInDelay {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 1.5s ease-out forwards;
+  }
+
+  .animate-fade-in-delay {
+    animation: fadeInDelay 2s ease-out 0.5s forwards;
+    opacity: 0;
+  }
+
+  /* Smooth scrolling */
+  .album-viewer {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar */
+  .album-viewer::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .album-viewer::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .album-viewer::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+  }
+
+  .album-viewer::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
 }

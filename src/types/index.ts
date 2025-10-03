@@ -12,6 +12,29 @@ export interface Photo {
   uploadedAt?: string
 }
 
+export interface AlbumCustomization {
+  theme: {
+    primaryColor: string
+    secondaryColor: string
+    backgroundColor: string
+    textColor: string
+  }
+  banner: {
+    imageUrl?: string
+    title?: string
+    subtitle?: string
+  }
+  music: {
+    enabled: boolean
+    url?: string
+    autoplay: boolean
+    volume: number
+  }
+  inspirationalQuote?: string
+  layout: 'grid' | 'masonry' | 'carousel'
+  showWatermark: boolean
+}
+
 export interface Album {
   id: number
   code: string
@@ -25,6 +48,7 @@ export interface Album {
   price: number
   photos: Photo[]
   password?: string
+  customization?: AlbumCustomization
 }
 
 export interface Client {

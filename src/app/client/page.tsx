@@ -10,34 +10,25 @@ import { Label } from '@/components/ui/label'
 import { useToast } from '@/hooks/use-toast'
 import { PhotoGallery } from '@/components/photo-gallery'
 
-// Mock data for demonstration
+// Mock data for demonstration - mapeamento simples para autenticação
 const DEMO_ALBUMS = {
-  'DEMO2024': {
-    password: '123456',
-    clientName: 'João Silva',
-    albumTitle: 'Casamento João & Maria',
-    isPaid: true,
-    photos: [
-      { id: 1, url: '/api/placeholder/800/600', preview: true },
-      { id: 2, url: '/api/placeholder/800/600', preview: true },
-      { id: 3, url: '/api/placeholder/800/600', preview: true },
-      { id: 4, url: '/api/placeholder/800/600', preview: false },
-      { id: 5, url: '/api/placeholder/800/600', preview: false },
-    ]
-  },
-  'FAMILY2024': {
-    password: 'familia123',
-    clientName: 'Ana Costa',
-    albumTitle: 'Ensaio Família Costa',
-    isPaid: false,
-    photos: [
-      { id: 1, url: '/api/placeholder/800/600', preview: true },
-      { id: 2, url: '/api/placeholder/800/600', preview: true },
-      { id: 3, url: '/api/placeholder/800/600', preview: true },
-      { id: 4, url: '/api/placeholder/800/600', preview: false },
-      { id: 5, url: '/api/placeholder/800/600', preview: false },
-    ]
-  }
+  // João Silva - acessa dashboard com múltiplos álbuns
+  'WEDDING2024': { password: 'love2024', clientName: 'João Silva' },
+  'FAMILY2024': { password: 'familia123', clientName: 'João Silva' }, 
+  'ANNIVERSARY2024': { password: 'bodas25', clientName: 'João Silva' },
+  
+  // Ana Costa - acessa dashboard com seus álbuns  
+  'MATERNITY2024': { password: 'baby2024', clientName: 'Ana Costa' },
+  'NEWBORN2024': { password: 'lucas123', clientName: 'Ana Costa' },
+  
+  // Maria Santos - acessa dashboard
+  'BIRTHDAY2024': { password: 'sofia15', clientName: 'Maria Santos' },
+  
+  // Carlos Oliveira - acessa dashboard
+  'CORPORATE2024': { password: 'tech2024', clientName: 'Carlos Oliveira' },
+  
+  // Compatibilidade com demos antigos - redirecionam para dashboard
+  'DEMO2024': { password: '123456', clientName: 'João Silva' }
 }
 
 export default function ClientPage() {
@@ -57,16 +48,17 @@ export default function ClientPage() {
     const album = DEMO_ALBUMS[albumCode.toUpperCase() as keyof typeof DEMO_ALBUMS]
     
     if (album && album.password === password) {
-      setCurrentAlbum({ 
-        ...album, 
-        code: albumCode.toUpperCase(),
-        totalPhotos: album.photos.length,
-        previewPhotos: album.photos.filter(p => p.preview).length
-      })
+      // Redirecionar para o dashboard do cliente após login bem-sucedido
       toast({
         title: "Login realizado com sucesso!",
-        description: `Bem-vindo ao álbum: ${album.albumTitle}`,
+        description: `Bem-vindo! Redirecionando para seus álbuns...`,
       })
+      
+      // Simular um pequeno delay antes do redirecionamento
+      setTimeout(() => {
+        window.location.href = `/client/dashboard?client=${encodeURIComponent(album.clientName)}`
+      }, 1500)
+      return
     } else {
       toast({
         title: "Erro no login",
@@ -275,7 +267,7 @@ export default function ClientPage() {
               <span>Área do Cliente</span>
             </CardTitle>
             <CardDescription>
-              Acesse seu álbum de fotos com segurança
+              Acesse seu álbum de fotos personalizado
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -285,7 +277,7 @@ export default function ClientPage() {
                 <Input
                   id="albumCode"
                   type="text"
-                  placeholder="Ex: DEMO2024"
+                  placeholder="Ex: WEDDING2024"
                   value={albumCode}
                   onChange={(e) => setAlbumCode(e.target.value)}
                   required
@@ -314,15 +306,29 @@ export default function ClientPage() {
             <div className="mt-6 pt-6 border-t border-gray-200">
               <h4 className="font-semibold text-sm text-gray-700 mb-3">Contas de Demonstração:</h4>
               <div className="space-y-3 text-sm">
-                <div className="p-3 bg-green-50 rounded-lg border border-green-200">
-                  <p className="font-medium text-green-900">Álbum Pago (Completo)</p>
-                  <p><strong>Código:</strong> DEMO2024</p>
-                  <p><strong>Senha:</strong> 123456</p>
+                <div className="p-3 bg-purple-50 rounded-lg border border-purple-200">
+                  <p className="font-medium text-purple-900">João Silva (3 álbuns)</p>
+                  <p><strong>Código:</strong> WEDDING2024</p>
+                  <p><strong>Senha:</strong> love2024</p>
+                  <p className="text-xs text-purple-700 mt-1">✨ Inclui álbum personalizado</p>
                 </div>
-                <div className="p-3 bg-orange-50 rounded-lg border border-orange-200">
-                  <p className="font-medium text-orange-900">Álbum Preview</p>
-                  <p><strong>Código:</strong> FAMILY2024</p>
-                  <p><strong>Senha:</strong> familia123</p>
+                <div className="p-3 bg-pink-50 rounded-lg border border-pink-200">
+                  <p className="font-medium text-pink-900">Ana Costa (2 álbuns)</p>
+                  <p><strong>Código:</strong> MATERNITY2024</p>
+                  <p><strong>Senha:</strong> baby2024</p>
+                  <p className="text-xs text-pink-700 mt-1">💕 Ensaio de gestante</p>
+                </div>
+                <div className="p-3 bg-green-50 rounded-lg border border-green-200">
+                  <p className="font-medium text-green-900">Maria Santos (1 álbum)</p>
+                  <p><strong>Código:</strong> BIRTHDAY2024</p>
+                  <p><strong>Senha:</strong> sofia15</p>
+                  <p className="text-xs text-green-700 mt-1">🎂 Aniversário personalizado</p>
+                </div>
+                <div className="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                  <p className="font-medium text-blue-900">Carlos Oliveira (1 álbum)</p>
+                  <p><strong>Código:</strong> CORPORATE2024</p>
+                  <p><strong>Senha:</strong> tech2024</p>
+                  <p className="text-xs text-blue-700 mt-1">💼 Evento corporativo</p>
                 </div>
               </div>
             </div>

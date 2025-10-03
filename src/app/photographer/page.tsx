@@ -10,7 +10,9 @@ import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { PhotoUpload } from '@/components/photo-upload'
 import { PhotoGallery } from '@/components/photo-gallery'
+import AlbumCustomizationEditor from '@/components/album-customization-editor'
 import { useToast } from '@/hooks/use-toast'
+import type { AlbumCustomization } from '@/types'
 
 // Mock data for demonstration
 const PHOTOGRAPHER_CREDENTIALS = {
@@ -69,6 +71,8 @@ export default function PhotographerPage() {
   const [showCreateForm, setShowCreateForm] = useState(false)
   const [currentStep, setCurrentStep] = useState(1) // 1: Info, 2: Upload
   const [newAlbumId, setNewAlbumId] = useState<string | null>(null)
+  const [showCustomization, setShowCustomization] = useState(false)
+  const [selectedAlbumForCustomization, setSelectedAlbumForCustomization] = useState<any>(null)
   const [newAlbum, setNewAlbum] = useState({
     code: '',
     title: '',
@@ -202,6 +206,26 @@ export default function PhotographerPage() {
     return albums.filter(album => !album.isPaid).length
   }
 
+  const handleCustomizeAlbum = (album: any) => {
+    setSelectedAlbumForCustomization(album)
+    setShowCustomization(true)
+  }
+
+  const handleSaveCustomization = (customization: AlbumCustomization) => {
+    if (!selectedAlbumForCustomization) return
+    
+    setAlbums(prevAlbums =>
+      prevAlbums.map(album =>
+        album.id === selectedAlbumForCustomization.id
+          ? { ...album, customization }
+          : album
+      )
+    )
+    
+    setShowCustomization(false)
+    setSelectedAlbumForCustomization(null)
+  }
+
   if (isAuthenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-purple-50">
@@ -232,7 +256,33 @@ export default function PhotographerPage() {
         </header>
 
         <main className="container mx-auto px-4 py-8">
-          {/* Stats Cards */}
+          {/* Customization Editor */}
+          {showCustomization && selectedAlbumForCustomization && (
+            <div className="mb-8">
+              <AlbumCustomizationEditor
+                albumId={selectedAlbumForCustomization.id}
+                albumTitle={selectedAlbumForCustomization.title}
+                currentCustomization={selectedAlbumForCustomization.customization}
+                onSave={handleSaveCustomization}
+              />
+              <div className="mt-4 flex space-x-2">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setShowCustomization(false)
+                    setSelectedAlbumForCustomization(null)
+                  }}
+                >
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Voltar aos Álbuns
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {!showCustomization && (
+            <>
+              {/* Stats Cards */}
           <div className="grid md:grid-cols-4 gap-6 mb-8">
             <Card>
               <CardContent className="p-6">
@@ -515,9 +565,13 @@ export default function PhotographerPage() {
                           <Eye className="h-4 w-4 mr-1" />
                           Ver Detalhes
                         </Button>
-                        <Button size="sm" variant="outline">
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={() => handleCustomizeAlbum(album)}
+                        >
                           <Settings className="h-4 w-4 mr-1" />
-                          Configurar
+                          Personalizar
                         </Button>
                       </div>
                     </div>
@@ -540,6 +594,8 @@ export default function PhotographerPage() {
               </div>
             </CardContent>
           </Card>
+            </>
+          )}
         </main>
       </div>
     )

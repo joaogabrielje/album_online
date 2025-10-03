@@ -18,15 +18,28 @@ Um sistema moderno e robusto desenvolvido com **Next.js 14**, **React**, **TypeS
 - **Framer Motion** para animações suaves
 
 ### 👤 **Área do Cliente**
+- ✅ **Dashboard personalizado** com visão geral dos álbuns
+- ✅ **Experiência totalmente personalizada** por álbum:
+  - 🎨 Cores e temas customizados pelo fotógrafo
+  - 🎵 Música de fundo com controles interativos
+  - 🖼️ Banner personalizado com mensagens exclusivas
+  - 💬 Frases inspiradoras customizadas
+  - 📱 Layouts de galeria personalizados (grade, mosaico, carrossel)
 - ✅ Login seguro com código + senha
 - ✅ Visualização de fotos preview gratuitas
 - ✅ Sistema de pagamento integrado (simulado)
 - ✅ Download de fotos em alta qualidade
 - ✅ Interface responsiva e intuitiva
-- ✅ Estatísticas do álbum em tempo real
+- ✅ Compartilhamento de álbuns
 
 ### 📷 **Área do Fotógrafo**
 - ✅ Painel administrativo completo
+- ✅ **Editor de personalização visual** para cada álbum:
+  - 🎨 Configuração de cores e temas
+  - 🖼️ Upload e configuração de banners
+  - 🎵 Configuração de música de fundo
+  - 📝 Frases inspiradoras personalizadas
+  - 🎯 Escolha de layout de galeria
 - ✅ Criação e gerenciamento de álbuns
 - ✅ Controle de acesso e permissões
 - ✅ Dashboard com métricas de negócio
@@ -66,7 +79,58 @@ Um sistema moderno e robusto desenvolvido com **Next.js 14**, **React**, **TypeS
 }
 ```
 
-## 🎨 Design System
+## � Nova Funcionalidade: Personalização Total
+
+### Para Fotógrafos
+O sistema agora permite personalizar completamente a experiência de cada cliente:
+
+```typescript
+// Exemplo de configuração de personalização
+const customization = {
+  theme: {
+    primaryColor: '#ff6b6b',
+    secondaryColor: '#4ecdc4', 
+    backgroundColor: 'linear-gradient(135deg, #fff5f5 0%, #fef7ff 100%)',
+    textColor: '#2d3748'
+  },
+  banner: {
+    imageUrl: '/banner-casamento.jpg',
+    title: 'João & Maria',
+    subtitle: 'Uma história de amor eterna ❤️'
+  },
+  music: {
+    enabled: true,
+    url: '/musica-casamento.mp3',
+    autoplay: false,
+    volume: 0.3
+  },
+  inspirationalQuote: 'O amor é a ponte entre duas almas...',
+  layout: 'masonry',
+  showWatermark: true
+}
+```
+
+### Exemplos de Uso
+
+#### 1. **Casamento Romântico**
+- Cores: Rosa suave + dourado
+- Música: Música clássica romântica
+- Banner: Foto dos noivos
+- Layout: Mosaico (masonry)
+
+#### 2. **Ensaio Família**
+- Cores: Verde natureza + azul céu
+- Música: Instrumental suave
+- Banner: Texto personalizado
+- Layout: Grade uniforme
+
+#### 3. **Fotografia Corporativa**
+- Cores: Azul profissional + cinza
+- Música: Desabilitada
+- Banner: Logo da empresa
+- Layout: Grade minimalista
+
+## �🎨 Design System
 
 ### Cores Principais
 ```css
@@ -84,6 +148,9 @@ Um sistema moderno e robusto desenvolvido com **Next.js 14**, **React**, **TypeS
 - **Input** - Validação integrada com estados
 - **Badge** - Indicadores de status
 - **Toast** - Notificações não-intrusivas
+- **🆕 AlbumCustomizationEditor** - Editor visual completo
+- **🆕 Switch** - Toggle para configurações
+- **🆕 Tabs** - Organização do editor
 
 ## 🚀 Instalação e Configuração
 
@@ -151,6 +218,19 @@ npx prisma studio
 
 ### Credenciais de Teste
 
+#### **🌟 Cliente - Experiência Personalizada Completa**
+```
+Código: WEDDING2024
+Senha: love2024
+Funcionalidades: 
+- Tema personalizado com cores românticas
+- Música de fundo ambiente
+- Banner customizado com nomes dos noivos
+- Frase inspiradora
+- Layout em mosaico
+- Todas as fotos disponíveis
+```
+
 #### **Cliente - Álbum Completo (Pago)**
 ```
 Código: DEMO2024
@@ -169,7 +249,11 @@ Funcionalidades: Apenas fotos preview, simulação de pagamento
 ```
 Email: fotografo@demo.com
 Senha: admin123
-Funcionalidades: Criação de álbuns, dashboard, gestão de clientes
+Funcionalidades: 
+- Criação de álbuns
+- Editor de personalização visual
+- Dashboard completo
+- Gestão de clientes
 ```
 
 ## 📁 Estrutura do Projeto

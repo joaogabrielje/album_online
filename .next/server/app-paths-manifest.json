@@ -1,1 +1,8 @@
-{}
+{
+  "/page": "app/page.js",
+  "/photographer/page": "app/photographer/page.js",
+  "/client/page": "app/client/page.js",
+  "/client/album/[albumCode]/page": "app/client/album/[albumCode]/page.js",
+  "/client/dashboard/page": "app/client/dashboard/page.js",
+  "/api/upload/route": "app/api/upload/route.js"
+}
