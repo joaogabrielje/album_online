@@ -1,0 +1,111 @@
+// PhotoAlbum Pro - Database Schema
+// Sistema completo de gerenciamento de álbuns fotográficos
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// Fotógrafo/Usuário do sistema
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  clients Client[]
+  albums  Album[]
+
+  @@map("users")
+}
+
+// Cliente que contrata o fotógrafo
+model Client {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamento com fotógrafo
+  photographerId String
+  photographer   User   @relation(fields: [photographerId], references: [id], onDelete: Cascade)
+
+  // Relacionamentos
+  albums Album[]
+
+  @@map("clients")
+}
+
+// Álbum de fotos
+model Album {
+  id          String      @id @default(cuid())
+  code        String      @unique // Código de acesso único (ex: WEDDING2024)
+  title       String
+  description String?
+  password    String      // Senha para acesso do cliente
+  status      AlbumStatus @default(ACTIVE)
+  
+  // Configurações
+  previewCount Int     @default(5) // Quantidade de fotos preview
+  price        Decimal @default(299.99)
+  isPaid       Boolean @default(false)
+  
+  // Datas
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relacionamentos
+  clientId       String
+  client         Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  photographerId String
+  photographer   User   @relation(fields: [photographerId], references: [id], onDelete: Cascade)
+  
+  photos Photo[]
+
+  @@map("albums")
+}
+
+// Foto individual
+model Photo {
+  id           String    @id @default(cuid())
+  filename     String    // Nome do arquivo original
+  cloudinaryId String    @unique // Public ID no Cloudinary
+  url          String    // URL da foto no Cloudinary
+  thumbnailUrl String    // URL do thumbnail
+  
+  // Metadados
+  size         Int       // Tamanho do arquivo em bytes
+  width        Int?      // Largura da imagem
+  height       Int?      // Altura da imagem
+  format       String    // Formato do arquivo (jpg, png, etc)
+  
+  // Configurações
+  isPreview    Boolean   @default(false) // Se é uma foto preview
+  order        Int       @default(0) // Ordem de exibição
+  
+  // Datas
+  uploadedAt   DateTime  @default(now())
+  
+  // Relacionamento
+  albumId      String
+  album        Album     @relation(fields: [albumId], references: [id], onDelete: Cascade)
+
+  @@map("photos")
+}
+
+// Enums
+enum AlbumStatus {
+  ACTIVE
+  ARCHIVED
+  DRAFT
+}
