@@ -6,7 +6,10 @@
       "es6",
       "es2017"
     ],
-    "types": ["react", "react-dom"],
+    "types": [
+      "react",
+      "react-dom"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -54,7 +57,9 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "out/types/**/*.ts",
+    "./out/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
